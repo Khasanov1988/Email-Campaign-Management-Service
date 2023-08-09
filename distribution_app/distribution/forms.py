@@ -31,7 +31,7 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
 class SettingsForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Settings
-        fields = ('distribution_time_start', 'distribution_time_finish', 'distribution_periodicity', 'distribution_status',)
+        exclude = ('owner',)
 
 
 class LogsForm(StyleFormMixin, forms.ModelForm):

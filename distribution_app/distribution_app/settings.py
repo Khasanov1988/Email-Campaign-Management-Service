@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from distribution_app.settings_cron import *
 from distribution_app.settings_local import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -138,6 +139,10 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/users/'
+
+# Parameters imported from settings_cron
+CRONJOBS
+CRON_DIR
 
 # Parameters imported from settings_local
 EMAIL_BACKEND

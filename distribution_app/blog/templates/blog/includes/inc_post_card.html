@@ -1,0 +1,26 @@
+{% load my_tags %}
+<div class="col-3">
+    <div class="card mb-4 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">{{ object.title|title }}</h4>
+            <h5 class="my-0 font-weight-normal">({{ object.slug }})</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li>- {{ object.text }}</li>
+                <img src="{{ object.preview|mediapath_filter }}" class="img-thumbnail" alt="...">
+                </svg>
+            </ul>
+            {% if request.path|slice:"0:11" == '/blog/view/' %}
+                <a href="{% url 'blog:list' %}" class="btn btn-lg btn-block btn-outline-primary">Назад</a>
+            {% else %}
+                <a href="{% url 'blog:view' pk=object.pk %}" class="btn btn-lg btn-block btn-outline-primary">View</a>
+            {% endif %}
+            <a href="{% url 'blog:edit' pk=object.pk %}" class="btn btn-lg btn-block btn-outline-primary">Edit</a>
+            <a href="{% url 'blog:delete' pk=object.pk %}" class="btn btn-lg btn-block btn-outline-primary">Delete</a>
+            <div class="card-footer">
+                <h6 class="my-0 font-weight-normal">Просмотры: {{ object.views_count }}</h6>
+            </div>
+        </div>
+    </div>
+</div>

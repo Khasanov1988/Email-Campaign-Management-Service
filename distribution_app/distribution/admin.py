@@ -5,12 +5,12 @@ from distribution.models import Settings, Message, Logs, Status, Interval
 
 @admin.register(Settings)
 class SettingsAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'distribution_time_start', 'distribution_time_finish', 'distribution_periodicity', 'distribution_status',)
+    list_display = ('pk', 'distribution_time', 'distribution_periodicity', 'distribution_status',)
 
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'subject',)
+    list_display = ('pk', 'subject', 'owner',)
     search_fields = ('subject',)
 
 

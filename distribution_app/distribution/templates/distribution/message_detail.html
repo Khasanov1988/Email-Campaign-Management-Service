@@ -9,14 +9,14 @@
                     <h4 class="my-0 font-weight-normal">Рассылка №{{ object.pk|title }}</h4>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title pricing-card-title">{{ object.subject }}</h5>
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>Текст рассылки:"{{ object.text }}"</li>
-                        <div class="row">
-                            <span class="text-muted">{{ object.owner|default:"Без хозяина" }}</span>
-                        </div>
-                    </ul>
-                    <a href="{% url 'distribution:home' %}" class="btn btn-lg btn-block btn-outline-primary">Назад</a>
+                    <h5 class="card-title pricing-card-title"> Тема письма: "{{ object.subject }}"</h5>
+                    <div>Текст рассылки:</div>
+                    "{{ object.text }}"
+                    <div class="row">
+                        <span class="text-muted">{{ object.owner|default:"Без хозяина" }}</span>
+                    </div>
+                    <a href="{% url 'distribution:home' %}"
+                       class="btn btn-lg btn-block btn-outline-primary">Назад</a>
                 </div>
             </div>
         </div>
@@ -26,10 +26,13 @@
                     <h4>Настройки рассылки</h4>
                 </div>
                 <div class="card-body">
-                    {{ settings_formset.management_form }}
-                    {% for form in settings_formset.forms %}
-                    {{ form.as_p }}
-                    {% endfor %}
+                    <h6>Время рассылки:</h6>
+                    <li class="mb-3">{{ setting.distribution_time }}</li>
+                    <h6>Периодичность рассылки:</h6>
+                    <li class="mb-3">{{ setting.distribution_periodicity }}</li>
+                    <h6>Статус рассылки:</h6>
+                    <li class="mb-3">{{ setting.distribution_status }}</li>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -39,9 +42,18 @@
                     <h4>Логи</h4>
                 </div>
                 <div class="card-body">
-                    {{ logs_formset.management_form }}
-                    {% for form in logs_formset.forms %}
-                    {{ form.as_p }}
+                    {% for log in logs_list %}
+                    <h6>Дата и время попытки:</h6>
+                    <li class="mb-3">{{ log.last_attempt_time }}</li>
+                    <h6>Статус попытки:</h6>
+                    {% if log.last_attempt_status == 'positive' %}
+                    <li class="text-success mb-3">{{ log.last_attempt_status }}</li>
+                    {% else %}
+                    <li class="text-warning mb-3">{{ log.last_attempt_status }}</li>
+                    {% endif %}
+                    <h6>Ответ почтового сервера:</h6>
+                    <li class="mb-3">{{ log.last_attempt_response }}</li>
+                    <hr>
                     {% endfor %}
                 </div>
             </div>

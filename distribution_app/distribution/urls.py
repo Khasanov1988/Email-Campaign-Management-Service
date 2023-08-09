@@ -1,5 +1,6 @@
 from django.urls import path
 
+from distribution import views
 from distribution.apps import DistributionConfig
 
 from distribution.views import MessageListView, MessageDetailView, MessageUpdateView, \
@@ -13,4 +14,5 @@ urlpatterns = [
     path('edit/<int:pk>/', MessageUpdateView.as_view(), name='edit'),
     path('delete/<int:pk>/', MessageDeleteView.as_view(), name='delete'),
     path('create/', MessageCreateView.as_view(), name='create'),
+    path('change_status/<int:message_pk>/', views.change_status, name='change_status'),
 ]
