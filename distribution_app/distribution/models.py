@@ -68,3 +68,13 @@ class Logs(models.Model):
 class Message(models.Model):
     subject = models.CharField(max_length=150, verbose_name='тема рассылки')
     text = models.TextField(verbose_name='тело письма')
+
+    def __str__(self):
+        # Строковое отображение объекта
+        return f'Сообщение с номером {self.pk} на тему: {self.subject}'
+
+    class Meta:
+        verbose_name = 'сообщение'  # Настройка для наименования одного объекта
+        verbose_name_plural = 'сообщения'  # Настройка для наименования набора объектов
+
+
