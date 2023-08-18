@@ -1,11 +1,11 @@
 import random
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from blog.models import Post
@@ -33,6 +33,16 @@ class MessageListView(LoginRequiredMixin, ListView):
     model = Message
 
     def get_context_data(self, **kwargs):
+
+        if settings.CACHE_ENABLED:
+            key = 'user_list'
+            user_list = cache.get(key)
+            if user_list is None:
+                user_list = User.objects.all()
+                cache.set(key, user_list)
+        else:
+            user_list = User.objects.all()
+
         context_data = super().get_context_data()
         setting_list = Settings.objects.all()
         context_data['settings_list'] = setting_list
@@ -41,8 +51,9 @@ class MessageListView(LoginRequiredMixin, ListView):
         random.shuffle(posts_pk_list)
         parameters = {
             'settings_count': str(len(Settings.objects.all())),
-            'active_settings_count': str(len(Settings.objects.filter(distribution_status=Status.objects.get(status='started')))),
-            'users_count': str(len(User.objects.all())),
+            'active_settings_count': str(
+                len(Settings.objects.filter(distribution_status=Status.objects.get(status='started')))),
+            'users_count': str(len(user_list)),
             'random_posts': [Post.objects.get(pk=posts_pk_list[i]) for i in range(len(posts_pk_list))][:3]
         }
         context_data['parameters'] = parameters
