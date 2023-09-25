@@ -82,9 +82,9 @@ The project should now be running at http://localhost:8000.
 
 ## Features
 
-Create and save email messages with subjects and content.
-Schedule email distributions at specific times and intervals.
-View distribution logs to track sent emails and delivery status.
+* Create and save email messages with subjects and content.
+* Schedule email distributions at specific times and intervals.
+* View distribution logs to track sent emails and delivery status.
 
 ## Usage
 
