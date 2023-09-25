@@ -38,7 +38,7 @@ You can start the Redis Server with the following command:
 1. Clone the repository to your local machine:
 
   ```shell
-  git clone https://github.com/Khasanov1988/Coursework6.git
+  git clone https://github.com/Khasanov1988/Email-Campaign-Management-Service.git
   ```
 
 2. Navigate to the project directory:
