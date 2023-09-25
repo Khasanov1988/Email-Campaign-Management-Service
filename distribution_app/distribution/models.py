@@ -1,92 +1,83 @@
 from datetime import date, datetime, timedelta, time
-
 from django.db import models
 from django.utils import timezone
-
 from distribution_app import settings
 
 
-# Create your models here.
 class Status(models.Model):
-    status = models.CharField(max_length=150, verbose_name='статус')
+    status = models.CharField(max_length=150, verbose_name='Status')
 
     def __str__(self):
-        # Строковое отображение объекта
-        return f'Статус рассылки: {self.status}'
+        return f'Distribution Status: {self.status}'
 
     class Meta:
-        verbose_name = 'статус рассылки'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'статусы рассылки'  # Настройка для наименования набора объектов
+        verbose_name = 'Distribution Status'
+        verbose_name_plural = 'Distribution Statuses'
 
 
 class Interval(models.Model):
-    time_interval = models.CharField(max_length=150, verbose_name='периодичность')
+    time_interval = models.CharField(max_length=150, verbose_name='Interval')
 
     def __str__(self):
-        # Строковое отображение объекта
-        return f'Периодичность рассылки: {self.time_interval}'
+        return f'Distribution Interval: {self.time_interval}'
 
     class Meta:
-        verbose_name = 'периодичность рассылки'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'периодичности рассылки'  # Настройка для наименования набора объектов
+        verbose_name = 'Distribution Interval'
+        verbose_name_plural = 'Distribution Intervals'
 
 
 class Settings(models.Model):
     distribution_start_time = models.DateTimeField(default=timezone.now, null=True, blank=True,
-                                                   verbose_name='время начала рассылки')
+                                                   verbose_name='Distribution Start Time')
     distribution_stop_time = models.DateTimeField(default=timezone.now, null=True, blank=True,
-                                                  verbose_name='время окончания рассылки')
-    distribution_time = models.TimeField(default=time(hour=10, minute=0), verbose_name='время рассылки')
+                                                  verbose_name='Distribution Stop Time')
+    distribution_time = models.TimeField(default=time(hour=10, minute=0), verbose_name='Distribution Time')
     distribution_periodicity = models.ForeignKey('distribution.Interval',
-                                                 on_delete=models.CASCADE, verbose_name='периодичность рассылки')
+                                                 on_delete=models.CASCADE, verbose_name='Distribution Periodicity')
     distribution_status = models.ForeignKey('distribution.Status',
-                                            on_delete=models.CASCADE, verbose_name='статус рассылки')
-    message = models.ForeignKey('distribution.Message', on_delete=models.CASCADE, verbose_name='сообщение')
-
+                                            on_delete=models.CASCADE, verbose_name='Distribution Status')
+    message = models.ForeignKey('distribution.Message', on_delete=models.CASCADE, verbose_name='Message')
 
     def __str__(self):
-        # Строковое отображение объекта
-        return f'Рассылка в {self.distribution_time}, {self.distribution_periodicity}'
+        return f'Distribution at {self.distribution_time}, {self.distribution_periodicity}'
 
     class Meta:
-        verbose_name = 'настройка рассылки'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'настройки рассылки'  # Настройка для наименования набора объектов
+        verbose_name = 'Distribution Setting'
+        verbose_name_plural = 'Distribution Settings'
 
 
 class Logs(models.Model):
     last_attempt_time = models.DateTimeField(default=None, null=True, blank=True,
-                                             verbose_name='дата и время последней попытки')
+                                             verbose_name='Last Attempt Time')
     last_attempt_status = models.CharField(max_length=150, default=None, null=True, blank=True,
-                                           verbose_name='статус попытки')
+                                           verbose_name='Last Attempt Status')
     last_attempt_response = models.CharField(max_length=150, default=None, null=True, blank=True,
-                                             verbose_name='ответ почтового сервера')
+                                             verbose_name='Last Attempt Response')
     message = models.ForeignKey('distribution.Message', on_delete=models.CASCADE)
 
     def __str__(self):
-        # Строковое отображение объекта
-        return f'Лог рассылки на дату: {self.last_attempt_time} в статусе {self.last_attempt_status}'
+        return f'Distribution Log on {self.last_attempt_time} with Status {self.last_attempt_status}'
 
     class Meta:
-        verbose_name = 'лог рассылки'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'лог рассылки'  # Настройка для наименования набора объектов
+        verbose_name = 'Distribution Log'
+        verbose_name_plural = 'Distribution Logs'
 
 
 class Message(models.Model):
-    subject = models.CharField(max_length=150, verbose_name='тема рассылки')
-    text = models.TextField(verbose_name='тело письма')
+    subject = models.CharField(max_length=150, verbose_name='Message Subject')
+    text = models.TextField(verbose_name='Message Body')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
-                              verbose_name='владелец')
+                              verbose_name='Message Owner')
 
     def __str__(self):
-        # Строковое отображение объекта
-        return f'Сообщение с номером {self.pk} на тему: {self.subject}'
+        return f'Message #{self.pk} with Subject: {self.subject}'
 
     class Meta:
-        verbose_name = 'сообщение'  # Настройка для наименования одного объекта
-        verbose_name_plural = 'сообщения'  # Настройка для наименования набора объектов
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
         permissions = [
             (
                 'set_published',
-                'Can publish',
+                'Can Publish',
             )
         ]

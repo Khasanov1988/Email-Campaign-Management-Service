@@ -2,17 +2,17 @@
 
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 mx-auto text-center">
-    <h1 class="display-4">Сервис отправки рассылок</h1>
-    <p class="lead">Тут Вы можете управлять своими рассылками</p>
-    <p class="lead">В нашем сервисе уже зарегистрировано: {{parameters.settings_count}} рассылок, из них
-        {{parameters.active_settings_count}} сейчас активны. Рассылки направляются
-        {{parameters.users_count}} уникальным клиентам</p>
+    <h1 class="display-4">Mailing Service</h1>
+    <p class="lead">Here, you can manage your mailings</p>
+    <p class="lead">Our service currently has: {{ parameters.settings_count }} mailings, of which
+        {{ parameters.active_settings_count }} are active right now. The mailings are sent to
+        {{ parameters.users_count }} unique clients</p>
 </div>
 
 <div class="container">
     <div class="mb-4">
         {% if user.is_authenticated %}
-        <a href="{% url 'distribution:create' %}" class="btn btn-primary">Добавить рассылку</a>
+        <a href="{% url 'distribution:create' %}" class="btn btn-primary">Add Mailing</a>
         {% endif %}
     </div>
 </div>
@@ -22,7 +22,7 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Рассылка №{{ setting.message.pk }}</h4>
+                    <h4 class="my-0 font-weight-normal">Mailing №{{ setting.message.pk }}</h4>
                 </div>
                 <div class="card-body">
                     <h6 class="card-title pricing-card-title">{{ setting.message.subject }}</h6>
@@ -30,7 +30,7 @@
                         <li>"{{ setting.message.text|slice:":1000" }}"</li>
                     </ul>
                     <div class="row">
-                        <span class="text-muted">{{ setting.message.owner|default:"Без хозяина" }}</span>
+                        <span class="text-muted">{{ setting.message.owner|default:"No owner" }}</span>
                     </div>
                     {% if user.is_authenticated %}
                     <div class="col mb-3">
@@ -49,12 +49,12 @@
                     {% if setting.distribution_status.status == "started" %}
                     <div class="row m">
                         <a href="{% url 'distribution:change_status' message_pk=setting.message.pk %}"
-                           class="btn btn-warning btn-outline-light">Stop mailing</a>
+                           class="btn btn-warning btn-outline-light">Stop Mailing</a>
                     </div>
                     {% else %}
                     <div class="row m">
                         <a href="{% url 'distribution:change_status' message_pk=setting.message.pk %}"
-                           class="btn btn-success btn-outline-light">Start mailing</a>
+                           class="btn btn-success btn-outline-light">Start Mailing</a>
                     </div>
                     {% endif %}
                     {% endif %}
@@ -69,7 +69,7 @@
 <hr>
 
 <div class="pricing-header px-3 py-3 pt-md-5 mx-auto text-center">
-    <p class="lead">Три случайных поста:</p>
+    <p class="lead">Three Random Posts:</p>
 </div>
 
 {% load my_tags %}
@@ -80,7 +80,6 @@
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ post.title|title }}</h4>
-                    <h5 class="my-0 font-weight-normal">({{ post.slug }})</h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
@@ -89,7 +88,7 @@
                         </svg>
                     </ul>
                     <div class="card-footer">
-                        <h6 class="my-0 font-weight-normal">Просмотры: {{ post.views_count }}</h6>
+                        <h6 class="my-0 font-weight-normal">Views: {{ post.views_count }}</h6>
                     </div>
                 </div>
             </div>

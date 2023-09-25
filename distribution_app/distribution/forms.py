@@ -1,6 +1,5 @@
 from django import forms
 from django.forms import BooleanField
-
 from distribution.models import *
 
 
@@ -23,7 +22,7 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
         for name in cleaned_data.strip().split():
             if name.lower() in ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
                                 'радар']:
-                raise forms.ValidationError('Вы пытаетесь создать запрещенную рассылку')
+                raise forms.ValidationError('You are trying to create a prohibited message')
 
         return cleaned_data
 

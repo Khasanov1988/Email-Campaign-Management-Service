@@ -15,7 +15,7 @@ class UserProfileForm(StyleFormMixin, UserChangeForm):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('email', 'FIO', 'phone', 'comment',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

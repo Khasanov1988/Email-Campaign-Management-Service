@@ -20,16 +20,17 @@ class RegisterView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        # Send a welcome email to the user upon successful registration
         send_mail(
-            subject='Поздравляю с успешной регистрацией на сайте Рассылок!',
-            message='Добро пожаловать',
+            subject='Congratulations on successful registration at Distribution App!',
+            message='Welcome to our platform',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[self.object.email],
         )
         return super().form_valid(form)
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy('users:profile')
@@ -44,14 +45,20 @@ class LoginModifiedView(LoginView):
 
 
 def generate_new_password(request):
+    # Generate a new random password
     new_password = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+
+    # Send an email to the user with the new password
     send_mail(
-        subject='Вы сменили пароль на сайте SkyStore',
-        message=f'Ваш новый пароль {new_password}',
+        subject='You have changed your password on Distribution App',
+        message=f'Your new password is: {new_password}',
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[request.user.email],
     )
+
+    # Set the user's password to the new random password
     request.user.set_password(new_password)
     request.user.save()
-    return redirect(reverse('distribution:home'))
 
+    # Redirect the user to the home page
+    return redirect(reverse('distribution:home'))

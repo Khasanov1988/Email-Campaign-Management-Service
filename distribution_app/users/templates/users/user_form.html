@@ -1,31 +1,31 @@
 {% extends 'distribution/base.html' %}
 
 {% block content %}
-    <div class="container">
-        <form method="post" enctype="multipart/form-data">
-            <div class="col-12">
-                <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-6">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>Профиль</h3>
-                            </div>
-                            <div class="card-body">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-                                <button type="submit" class="btn btn-success">
-                                    Сохранить
-                                </button>
-                            </div>
-                            <div class="card-footer">
-                                <a href="{% url 'users:generate_new_password' %}" class="btn btn-danger">Сгенерировать
-                                    пароль</a>
-                            </div>
+<div class="container">
+    <form method="post" enctype="multipart/form-data">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Profile</h3>
+                        </div>
+                        <div class="card-body">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success">
+                                Save
+                            </button>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'users:generate_new_password' %}" class="btn btn-danger">Generate
+                                Password</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 {% endblock %}

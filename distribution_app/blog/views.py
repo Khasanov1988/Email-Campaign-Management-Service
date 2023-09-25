@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 
+from blog.forms import PostForm, PostUpdateForm
 from blog.models import Post
 from pytils.translit import slugify
 
@@ -10,23 +11,20 @@ class MixinSlug:
     def form_valid(self, form):
         if form.is_valid():
             new_post = form.save()
-            new_post.slug = slugify(new_post.title)
+            new_post.slug = slugify(new_post.title)  # Generate a slug based on the post title
             new_post.save()
-
         return super().form_valid(form)
 
 
 class PostCreateView(LoginRequiredMixin, MixinSlug, CreateView):
     model = Post
-    fields = ('title', 'text', 'preview')
+    form_class = PostForm
     success_url = reverse_lazy('blog:list')
 
 
 class PostUpdateView(LoginRequiredMixin, MixinSlug, UpdateView):
     model = Post
-    fields = ('title', 'text', 'preview', 'is_published')
-
-    # success_url = reverse_lazy('blog:list')
+    form_class = PostUpdateForm
 
     def get_success_url(self):
         return reverse('blog:view', args=[self.kwargs.get('pk')])
@@ -37,7 +35,7 @@ class PostListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
-        queryset = queryset.filter(is_published=True)
+        queryset = queryset.filter(is_published=True)  # Filter to show only published posts
         return queryset
 
 
@@ -46,11 +44,11 @@ class PostDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        self.object.views_count += 1
+        self.object.views_count += 1  # Increment the views count when viewing a post
         self.object.save()
         return self.object
 
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy('blog:list')
+    success_url = reverse_lazy('blog:list')  # Redirect to the list of posts after deleting a post

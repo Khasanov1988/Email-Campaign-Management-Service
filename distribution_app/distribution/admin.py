@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from distribution.models import Settings, Message, Logs, Status, Interval
 
 
@@ -28,4 +27,3 @@ class StatusAdmin(admin.ModelAdmin):
 @admin.register(Interval)
 class IntervalAdmin(admin.ModelAdmin):
     list_display = ('pk', 'time_interval',)
-

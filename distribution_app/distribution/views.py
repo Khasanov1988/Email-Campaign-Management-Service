@@ -49,10 +49,13 @@ class MessageListView(LoginRequiredMixin, ListView):
         crontab_job(context_data)
         posts_pk_list: list = list(Post.objects.values_list('pk', flat=True))
         random.shuffle(posts_pk_list)
+        if Status.objects.get(status='started'):
+            started_count = str(len(Settings.objects.filter(distribution_status=Status.objects.get(status='started'))))
+        else:
+            started_count = 0
         parameters = {
             'settings_count': str(len(Settings.objects.all())),
-            'active_settings_count': str(
-                len(Settings.objects.filter(distribution_status=Status.objects.get(status='started')))),
+            'active_settings_count': started_count,
             'users_count': str(len(user_list)),
             'random_posts': [Post.objects.get(pk=posts_pk_list[i]) for i in range(len(posts_pk_list))][:3]
         }

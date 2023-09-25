@@ -1,20 +1,20 @@
 {% extends 'distribution/base.html' %}
 
 {% block content %}
-    <div class="col-6">
-        <div class="row">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            <p>Хотите удалить рассылку №{{ object.pk }}?</p>
-                            <button type="submit" class="btn btn-danger">Подтвердить</button>
-                            <a href="{% url 'distribution:home' %}" class="btn btn-warning">Отмена</a>
-                        </form>
-                    </div>
+<div class="col-6">
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>Do you want to delete mailing №{{ object.pk }}?</p>
+                        <button type="submit" class="btn btn-danger">Confirm</button>
+                        <a href="{% url 'distribution:home' %}" class="btn btn-warning">Cancel</a>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

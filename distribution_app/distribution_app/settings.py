@@ -9,14 +9,21 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
+# Import custom settings from other modules
 from distribution_app.settings_cron import *
 from distribution_app.settings_local import *
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -30,7 +37,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django_crontab',
+    'django_crontab',  # For managing cron jobs
 
-    'distribution',
-    'users',
-    'blog'
+    'distribution',  # Distribution app
+    'users',  # Users app
+    'blog',  # Blog app
 ]
 
 MIDDLEWARE = [
@@ -81,7 +87,7 @@ WSGI_APPLICATION = 'distribution_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'coursework_6',
         'USER': 'postgres',
         'PASSWORD': 'PGNWyG',
@@ -131,15 +137,17 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Media files (uploads)
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Custom User model
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/users/'
 
+# Caching settings
 CACHE_ENABLED = True
 CACHES = {
     "default": {
@@ -148,18 +156,16 @@ CACHES = {
     }
 }
 
-# Parameters imported from settings_cron
-CRONJOBS
-CRON_DIR
+# Parameters imported from .env
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND')
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')
+EMAIL_ADMIN = os.getenv('EMAIL_ADMIN')
 
-# Parameters imported from settings_local
-EMAIL_BACKEND
-EMAIL_HOST
-EMAIL_PORT
-
-EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD
-EMAIL_USE_SSL
-DEFAULT_FROM_EMAIL
-SERVER_EMAIL
-EMAIL_ADMIN
+CSU_USER_NAME = os.getenv('CSU_USER_NAME')
+CSU_USER_PASSWORD = os.getenv('CSU_USER_PASSWORD')
