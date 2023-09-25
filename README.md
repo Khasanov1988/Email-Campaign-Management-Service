@@ -44,7 +44,7 @@ You can start the Redis Server with the following command:
 2. Navigate to the project directory:
 
   ```shell
-  cd messaging-service
+  cd distribution_app
   ```
 
 3. Create a virtual environment and activate it:
