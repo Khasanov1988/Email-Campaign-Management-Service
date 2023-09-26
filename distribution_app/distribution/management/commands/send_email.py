@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 from django.utils import timezone
 from distribution.models import Message, Logs
 from distribution_app import settings
-from distribution_app.settings_local import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+from distribution_app.settings import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 from users.models import User
 import smtplib
 from email.mime.text import MIMEText
